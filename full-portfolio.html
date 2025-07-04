@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Portfolio | Five Vision Engineering</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #8B5A2B;
+            --secondary: #3A5F7D;
+            --accent: #D4AF37;
+            --light: #F5F5F5;
+            --dark: #333;
+        }
+        
+        body {
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Portfolio Header */
+        .portfolio-hero {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://lh3.googleusercontent.com/p/AF1QipOh2-gQVwFg3e6E6b0SfBCMYCgQ3t9gfW7nlrnU=s1360-w1360-h1020-rw');
+            background-size: cover;
+            background-position: center;
+            padding: 150px 0 80px;
+            text-align: center;
+            color: white;
+        }
+        
+        .portfolio-hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+        }
+        
+        .project-counter {
+            background: var(--accent);
+            color: var(--dark);
+            padding: 5px 20px;
+            border-radius: 30px;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 30px;
+        }
+        
+        /* Back Button */
+        .back-btn {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+        
+        /* Portfolio Grid */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            padding: 60px 0;
+        }
+        
+        .portfolio-item {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            height: 250px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .portfolio-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .portfolio-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(139, 90, 43, 0.9);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .portfolio-item:hover .portfolio-overlay {
+            opacity: 1;
+        }
+        
+        .portfolio-item:hover .portfolio-img {
+            transform: scale(1.05);
+        }
+        
+        .portfolio-overlay h3 {
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 10px;
+            font-size: 1.5rem;
+        }
+        
+        .portfolio-overlay .btn {
+            margin-top: 15px;
+            background: var(--accent);
+            color: var(--dark);
+        }
+        
+        /* Project Details Modal */
+        .project-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 1000;
+            overflow-y: auto;
+            padding: 40px 0;
+        }
+        
+        .project-modal.active {
+            display: block;
+        }
+        
+        .modal-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .modal-header {
+            position: relative;
+        }
+        
+        .modal-main-img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--primary);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+        
+        .modal-content {
+            padding: 40px;
+        }
+        
+        .modal-content h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .project-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .project-meta div {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .project-meta i {
+            color: var(--accent);
+            font-size: 1.2rem;
+        }
+        
+        .project-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 30px 0;
+        }
+        
+        .project-gallery img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .project-gallery img:hover {
+            transform: scale(1.03);
+        }
+        
+        .scope-list {
+            margin: 20px 0;
+            padding-left: 20px;
+        }
+        
+        .scope-list li {
+            margin-bottom: 8px;
+            position: relative;
+        }
+        
+        .scope-list li:before {
+            content: "•";
+            color: var(--accent);
+            font-size: 1.5rem;
+            position: absolute;
+            left: -20px;
+            top: -5px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+        
+        .btn:hover {
+            background: var(--secondary);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- Back Button -->
+    <a href="howe.html" class="back-btn">
+        <i class="fas fa-arrow-left"></i>
+        <span>Back to Home</span>
+    </a>
+
+    <!-- Portfolio Hero -->
+    <header class="portfolio-hero">
+        <div class="container">
+            <h1>Our Complete Portfolio</h1>
+            <div class="project-counter">17 Signature Projects</div>
+            <p>Showcasing 25+ years of heritage-inspired engineering excellence</p>
+        </div>
+    </header>
+
+    <!-- Portfolio Grid -->
+    <main class="container">
+      <!-- Portfolio Grid - All 17 Projects -->
+<div class="portfolio-grid">
+    <!-- Project 1 - BROQ Resort -->
+    <div class="portfolio-item" data-id="broq-resort">
+        <img src="https://lh3.googleusercontent.com/p/AF1QipOh2-gQVwFg3e6E6b0SfBCMYCgQ3t9gfW7nlrnU=s1360-w1360-h1020-rw" alt="BROQ Resort" class="portfolio-img">
+        <div class="portfolio-overlay">
+            <h3>BROQ Resort</h3>
+            <p>Traditional Tibetan-inspired architecture</p>
+            <a href="#broq-resort" class="btn">View Details</a>
+        </div>
+    </div>
+
+    <!-- Project 2 - Syed Mehdi Shah House -->
+    <div class="portfolio-item" data-id="syed-mehdi">
+        <img src="https://lh3.googleusercontent.com/p/AF1QipMih5W7NzYIOpfsZJY970mYSQjyBviOBZTQmiPQ=s1360-w1360-h1020-rw" alt="Syed Mehdi Shah House" class="portfolio-img">
+        <div class="portfolio-overlay">
+            <h3>Syed Mehdi Shah House</h3>
+            <p>Traditional Balti residence</p>
+            <a href="#syed-mehdi" class="btn">View Details</a>
+        </div>
+    </div>
+
+    <!-- Project 3 - Qayam Hotel -->
+    <div class="portfolio-item" data-id="qayam-hotel">
+        <img src="https://lh3.googleusercontent.com/p/AF1QipMWHN6lzaYdvfEgT6ILSnVkJdCq1LM9VSrNUBQU=s1360-w1360-h1020-rw" alt="Qayam Hotel" class="portfolio-img">
+        <div class="portfolio-overlay">
+            <h3>Qayam Hotel 411</h3>
+            <p>Cultural hospitality with modern amenities</p>
+            <a href="#qayam-hotel" class="btn">View Details</a>
+        </div>
+    </div>
+
+    <!-- Project 4 - KHAR RESORT -->
+    <div class="portfolio-item" data-id="khar-resort">
+        <img src="https://lh3.googleusercontent.com/p/AF1QipNKXsfJxSEOco-oHHJNzKh3NN0dYC--8s_PTf91=s1360-w1360-h1020-rw" alt="KHAR RESORT" class="portfolio-img">
+        <div class="portfolio-overlay">
+            <h3>KHAR RESORT Ali Abad</h3>
+            <p>Traditional wooden Tibetan design</p>
+            <a href="#khar-resort" class="btn">View Details</a>
+        </div>
+    </div>
+
+    <!-- Project 5 - Imam Bargah -->
+    <div class="portfolio-item" data-id="imam-bargah">
+        <img src="https://lh3.googleusercontent.com/p/AF1QipNy4zfp1vkCz1wyz-t3WodU0CwyN0AubetDz5_i=s1360-w1360-h1020-rw" alt="Imam Bargah" class="portfolio-img">
+        <div class="portfolio-overlay">
+            <h3>Imam Bargah Chani Rgiayul</h3>
+            <p>Wooden ancient Tibetan design with Islamic touch</p>
+            <a href="#imam-bargah" class="btn">View Details</a>
+        </div>
+    </div>
+
+    <!-- Project 6 - BCDF Cultural Complex -->
+    <div class="portfolio-item" data-id="bcdf-complex">
+        <img src="https://lh3.googleusercontent.com/p/AF1QipOh2-gQVwFg3e6E6b0SfBCMYCgQ3t9gfW7nlrnU=s1360-w1360-h1020-rw" alt="BCDF Cultural Complex" class="portfolio-img">
+        <div class="portfolio-overlay">
+            <h3>BCDF Cultural Complex</h3>
+            <p>Cultural preservation center in Hussainabad</p>
+            <a href="#bcdf-complex" class="btn">View Details</a>
+        </div>
+    </div>
+
+    <!-- Project 7 - Professor Hassan House -->
+    <div class="portfolio-item" data-id="professor-house">
+        <img src="https://lh3.googleusercontent.com/p/AF1QipMih5W7NzYIOpfsZJY970mYSQjyBviOBZTQmiPQ=s1360-w1360-h1020-rw" alt="Professor Hassan House" class="portfolio-img">
+        <div class="portfolio-overlay">
+            <h3>Professor Hassan House</h3>
+            <p>Academic residence with traditional motifs</p>
+            <a href="#professor-house" class="btn">View Details</a>
+        </div>
+    </div>
+
+    <!-- Project 8 - Khanqah Khanay Khaplu -->
+    <div class="portfolio-item" data-id="khanqah-khanay">
+        <img src="https://lh3.googleusercontent.com/p/AF1QipMWHN6lzaYdvfEgT6ILSnVkJdCq1LM9VSrNUBQU=s1360-w1360-h1020-rw" alt="Khanqah Khanay" class="portfolio-img">
+        <div class="portfolio-overlay">
+            <h3>Khanqah Khanay Khaplu</h3>
+            <p>Spiritual center with intricate woodwork</p>
+            <a href="#khanqah-khanay" class="btn">View Details</a>
+        </div>
+    </div>
+
+    <!-- Project 9 - Khanqaah Sailing Khaplu -->
+    <div class="portfolio-item" data-id="khanqah-sailing">
+        <img src="https://lh3.googleusercontent.com/p/AF1QipNKXsfJxSEOco-oHHJNzKh3NN0dYC--8s_PTf91=s1360-w1360-h1020-rw" alt="Khanqaah Sailing" class="portfolio-img">
+        <div class="portfolio-overlay">
+            <h3>Khanqaah Sailing Khaplu</h3>
+            <p>Historic religious architecture</p>
+            <a href="#khanqah-sailing" class="btn">View Details</a>
+        </div>
+    </div>
+
+    <!-- Project 10 - Khanqaah Malayar Balghar -->
+    <div class="portfolio-item" data-id="khanqah-malayar">
+        <img src="https://lh3.googleusercontent.com/p/AF1QipNy4zfp1vkCz1wyz-t3WodU0CwyN0AubetDz5_i=s1360-w1360-h1020-rw" alt="Khanqaah Malayar" class="portfolio-img">
+        <div class="portfolio-overlay">
+            <h3>Khanqaah Malayar Balghar</h3>
+            <p>Traditional religious complex</p>
+            <a href="#khanqah-malayar" class="btn">View Details</a>
+        </div>
+    </div>
+
+    <!-- Project 11 - Khanqaah Dasu Thalay -->
+    <div class="portfolio-item" data-id="khanqah-dasu">
+        <img src="https://lh3.googleusercontent.com/p/AF1QipOh2-gQVwFg3e6E6b0SfBCMYCgQ3t9gfW7nlrnU=s1360-w1360-h1020-rw" alt="Khanqaah Dasu" class="portfolio-img">
+        <div class="portfolio-overlay">
+            <h3>Khanqaah Dasu Thalay</h3>
+            <p>Mountain-view spiritual center</p>
+            <a href="#khanqah-dasu" class="btn">View Details</a>
+        </div>
+    </div>
+
+    <!-- Project 12 - Wazir Waqar Hotel -->
+    <div class="portfolio-item" data-id="wazir-waqar">
+        <img src="https://lh3.googleusercontent.com/p/AF1QipMih5W7NzYIOpfsZJY970mYSQjyBviOBZTQmiPQ=s1360-w1360-h1020-rw" alt="Wazir Waqar Hotel" class="portfolio-img">
+        <div class="portfolio-overlay">
+            <h3>Wazir Waqar Hotel</h3>
+            <p>Modern hospitality with cultural elements</p>
+            <a href="#wazir-waqar" class="btn">View Details</a>
+        </div>
+    </div>
+
+    <!-- Project 13 - Jamia Masjid Shigar -->
+    <div class="portfolio-item" data-id="jamia-masjid">
+        <img src="https://lh3.googleusercontent.com/p/AF1QipMWHN6lzaYdvfEgT6ILSnVkJdCq1LM9VSrNUBQU=s1360-w1360-h1020-rw" alt="Jamia Masjid" class="portfolio-img">
+        <div class="portfolio-overlay">
+            <h3>Jamia Masjid Shigar</h3>
+            <p>Historic mosque restoration</p>
+            <a href="#jamia-masjid" class="btn">View Details</a>
+        </div>
+    </div>
+
+    <!-- Project 14 - Afzal Mondoq House -->
+    <div class="portfolio-item" data-id="afzal-house">
+        <img src="https://lh3.googleusercontent.com/p/AF1QipNKXsfJxSEOco-oHHJNzKh3NN0dYC--8s_PTf91=s1360-w1360-h1020-rw" alt="Afzal Mondoq House" class="portfolio-img">
+        <div class="portfolio-overlay">
+            <h3>Afzal Mondoq House</h3>
+            <p>Traditional Skardu residence</p>
+            <a href="#afzal-house" class="btn">View Details</a>
+        </div>
+    </div>
+
+    <!-- Project 15 - Imam Bargah RgiaYul -->
+    <div class="portfolio-item" data-id="imam-bargah2">
+        <img src="https://lh3.googleusercontent.com/p/AF1QipNy4zfp1vkCz1wyz-t3WodU0CwyN0AubetDz5_i=s1360-w1360-h1020-rw" alt="Imam Bargah" class="portfolio-img">
+        <div class="portfolio-overlay">
+            <h3>Imam Bargah RgiaYul</h3>
+            <p>Islamic-Tibetan fusion architecture</p>
+            <a href="#imam-bargah2" class="btn">View Details</a>
+        </div>
+    </div>
+
+    <!-- Project 16 - Space Hotel Shigar -->
+    <div class="portfolio-item" data-id="space-hotel">
+        <img src="https://lh3.googleusercontent.com/p/AF1QipOh2-gQVwFg3e6E6b0SfBCMYCgQ3t9gfW7nlrnU=s1360-w1360-h1020-rw" alt="Space Hotel" class="portfolio-img">
+        <div class="portfolio-overlay">
+            <h3>Space Hotel Shigar</h3>
+            <p>Contemporary design with traditional elements</p>
+            <a href="#space-hotel" class="btn">View Details</a>
+        </div>
+    </div>
+
+    <!-- Project 17 - Rafiq Hotel -->
+    <div class="portfolio-item" data-id="rafiq-hotel">
+        <img src="https://lh3.googleusercontent.com/p/AF1QipMih5W7NzYIOpfsZJY970mYSQjyBviOBZTQmiPQ=s1360-w1360-h1020-rw" alt="Rafiq Hotel" class="portfolio-img">
+        <div class="portfolio-overlay">
+            <h3>Rafiq Hotel, 411 Skardu</h3>
+            <p>Modern amenities with cultural motifs</p>
+            <a href="#rafiq-hotel" class="btn">View Details</a>
+        </div>
+    </div>
+</div>
+
+<!-- Corresponding Modals for All Projects -->
+<!-- BROQ Resort Modal -->
+<div class="project-modal" id="broq-resort">
+    <div class="modal-container">
+        <div class="modal-header">
+            <img src="https://lh3.googleusercontent.com/p/AF1QipOh2-gQVwFg3e6E6b0SfBCMYCgQ3t9gfW7nlrnU=s1360-w1360-h1020-rw" alt="BROQ Resort" class="modal-main-img">
+            <div class="modal-close">&times;</div>
+        </div>
+        <div class="modal-content">
+            <h2>BROQ Resort – Skardu</h2>
+            <div class="project-meta">
+                <div><i class="fas fa-map-marker-alt"></i><span>Hussain Abad Broq, Skardu</span></div>
+                <div><i class="fas fa-calendar-alt"></i><span>Completed: 2022</span></div>
+                <div><i class="fas fa-handshake"></i><span>Partner: AB Engineering Solutions</span></div>
+            </div>
+            <p>A culturally rooted architectural project inspired by traditional Tibetan design principles, constructed using indigenous materials and time-honored techniques. Set against the serene backdrop of Hussain Abad Broq, the design seamlessly integrates with its natural surroundings, emphasizing simplicity, harmony, and regional authenticity.</p>
+            
+            <h3>Construction Progress</h3>
+            <div class="project-gallery">
+                <img src="https://lh3.googleusercontent.com/p/AF1QipOh2-gQVwFg3e6E6b0SfBCMYCgQ3t9gfW7nlrnU=s1360-w1360-h1020-rw" alt="Construction Phase">
+                <img src="https://lh3.googleusercontent.com/p/AF1QipMih5W7NzYIOpfsZJY970mYSQjyBviOBZTQmiPQ=s1360-w1360-h1020-rw" alt="Woodwork Detail">
+                <img src="https://lh3.googleusercontent.com/p/AF1QipMWHN6lzaYdvfEgT6ILSnVkJdCq1LM9VSrNUBQU=s1360-w1360-h1020-rw" alt="Final Structure">
+            </div>
+            
+            <h3>Scope of Work</h3>
+            <ul class="scope-list">
+                <li>Architectural Design</li>
+                <li>Detailed Design Development</li>
+                <li>Construction Supervision</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Repeat similar modals for all 17 projects -->
+<!-- Each modal follows the same structure with project-specific details -->
+<!-- Example for second project: -->
+<div class="project-modal" id="syed-mehdi">
+    <div class="modal-container">
+        <div class="modal-header">
+            <img src="https://lh3.googleusercontent.com/p/AF1QipMih5W7NzYIOpfsZJY970mYSQjyBviOBZTQmiPQ=s1360-w1360-h1020-rw" alt="Syed Mehdi Shah House" class="modal-main-img">
+            <div class="modal-close">&times;</div>
+        </div>
+        <div class="modal-content">
+            <h2>Syed Mehdi Shah Ex-CM House</h2>
+            <div class="project-meta">
+                <div><i class="fas fa-map-marker-alt"></i><span>Sadpara Road, Skardu</span></div>
+                <div><i class="fas fa-calendar-alt"></i><span>Completed: 2021</span></div>
+            </div>
+            <p>Traditional Balti architectural work showcasing exquisite craftsmanship and indigenous design principles.</p>
+            
+            <h3>Key Features</h3>
+            <div class="project-gallery">
+                <img src="https://lh3.googleusercontent.com/p/AF1QipMih5W7NzYIOpfsZJY970mYSQjyBviOBZTQmiPQ=s1360-w1360-h1020-rw" alt="Front View">
+                <img src="https://lh3.googleusercontent.com/p/AF1QipMWHN6lzaYdvfEgT6ILSnVkJdCq1LM9VSrNUBQU=s1360-w1360-h1020-rw" alt="Courtyard">
+                <img src="https://lh3.googleusercontent.com/p/AF1QipNKXsfJxSEOco-oHHJNzKh3NN0dYC--8s_PTf91=s1360-w1360-h1020-rw" alt="Woodwork Detail">
+            </div>
+            
+            <h3>Scope of Work</h3>
+            <ul class="scope-list">
+                <li>Architectural Design</li>
+                <li>Detailed Design Development</li>
+                <li>Construction Supervision</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Continue this pattern for all 17 projects -->
+    </main>
+
+    <!-- Project Modals -->
+    <!-- BROQ Resort Modal -->
+    <div class="project-modal" id="broq-resort">
+        <div class="modal-container">
+            <div class="modal-header">
+                <img src="https://lh3.googleusercontent.com/p/AF1QipOh2-gQVwFg3e6E6b0SfBCMYCgQ3t9gfW7nlrnU=s1360-w1360-h1020-rw" alt="BROQ Resort" class="modal-main-img">
+                <div class="modal-close">&times;</div>
+            </div>
+            <div class="modal-content">
+                <h2>BROQ Resort – Skardu</h2>
+                <div class="project-meta">
+                    <div>
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Hussain Abad Broq, Skardu</span>
+                    </div>
+                    <div>
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>Completed: 2022</span>
+                    </div>
+                    <div>
+                        <i class="fas fa-handshake"></i>
+                        <span>Partner: AB Engineering Solutions</span>
+                    </div>
+                </div>
+                <p>A culturally rooted architectural project inspired by traditional Tibetan design principles, constructed using indigenous materials and time-honored techniques. Set against the serene backdrop of Hussain Abad Broq, the design seamlessly integrates with its natural surroundings, emphasizing simplicity, harmony, and regional authenticity.</p>
+                
+                <h3>Construction Progress</h3>
+                <div class="project-gallery">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Construction Phase">
+                    <img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Woodwork Detail">
+                    <img src="https://images.unsplash.com/photo-1600607688969-a5bfcd646154?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Final Structure">
+                </div>
+                
+                <h3>Scope of Work</h3>
+                <ul class="scope-list">
+                    <li>Architectural Design</li>
+                    <li>Detailed Design Development</li>
+                    <li>Construction Supervision</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Syed Mehdi Shah House Modal -->
+    <div class="project-modal" id="syed-mehdi">
+        <div class="modal-container">
+            <div class="modal-header">
+                <img src="https://images.unsplash.com/photo-1604514628550-37477afdf4e3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Syed Mehdi Shah House" class="modal-main-img">
+                <div class="modal-close">&times;</div>
+            </div>
+            <div class="modal-content">
+                <h2>Syed Mehdi Shah House – Skardu</h2>
+                <div class="project-meta">
+                    <div>
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Sadpara Road, Skardu</span>
+                    </div>
+                    <div>
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>Completed: 2021</span>
+                    </div>
+                </div>
+                <p>Traditional Balti architectural work showcasing exquisite wood carvings and indigenous stone masonry techniques. This residence harmoniously blends cultural authenticity with modern living requirements.</p>
+                
+                <h3>Key Features</h3>
+                <div class="project-gallery">
+                    <img src="https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Exterior View">
+                    <img src="https://images.unsplash.com/photo-1600585152220-90363fe7e115?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Woodwork Detail">
+                </div>
+                
+                <h3>Scope of Work</h3>
+                <ul class="scope-list">
+                    <li>Architectural Design</li>
+                    <li>Detailed Design Development</li>
+                    <li>Construction Supervision</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Continue modals for all projects... -->
+
+    <!-- JavaScript -->
+    <script>
+        // Project Modal Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Open modal when clicking project
+            document.querySelectorAll('.portfolio-overlay .btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const projectId = this.getAttribute('href').substring(1);
+                    document.getElementById(projectId).classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                });
+            });
+            
+            // Close modal
+            document.querySelectorAll('.modal-close').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    this.closest('.project-modal').classList.remove('active');
+                    document.body.style.overflow = '';
+                    history.pushState(null, null, ' ');
+                });
+            });
+            
+            // Close when clicking outside
+            document.querySelectorAll('.project-modal').forEach(modal => {
+                modal.addEventListener('click', function(e) {
+                    if(e.target === this) {
+                        this.classList.remove('active');
+                        document.body.style.overflow = '';
+                        history.pushState(null, null, ' ');
+                    }
+                });
+            });
+            
+            // Handle direct links (e.g., #broq-resort)
+            if(window.location.hash) {
+                const projectModal = document.getElementById(window.location.hash.substring(1));
+                if(projectModal) {
+                    projectModal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                }
+            }
+        });
+    </script>
+    <!-- Add this JavaScript before closing </body> tag -->
+
+</body>
+</html>
